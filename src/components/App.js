@@ -9,6 +9,7 @@ function App() {
     counselor: '',
     speciality: '',
   });
+  const [search, setSearch] = useState('');
 
   const handleInput = (ev) => {
     setNewAdalaber({
@@ -29,6 +30,14 @@ function App() {
     });
   };
 
+  const handleSearchName = (ev) => {
+    setSearch(ev.target.value);
+  };
+
+  const handleSubmit = (ev) => {
+    ev.preventDefault();
+  };
+
   const renderAdalabers = () => {
     return adalabers
       .sort((a, b) => {
@@ -39,6 +48,9 @@ function App() {
           return 1;
         }
         return 0;
+      })
+      .filter((adalaber) => {
+        return adalaber.name.toLowerCase().includes(search.toLowerCase());
       })
       .map((adalaber) => {
         return (
@@ -54,9 +66,15 @@ function App() {
   return (
     <div>
       <h1>Adalabers</h1>
-      <form>
+      <form onSubmit={handleSubmit}>
         <label htmlFor="nameFilter">Nombre</label>
-        <input type="text" id="nameFilter" name="nameFilter" />
+        <input
+          type="text"
+          id="nameFilter"
+          name="nameFilter"
+          value={search}
+          onChange={handleSearchName}
+        />
       </form>
       <table className="table">
         <thead>
@@ -69,7 +87,7 @@ function App() {
         <tbody>{renderAdalabers()}</tbody>
       </table>
       <h2>Añadir una Adalaber</h2>
-      <form>
+      <form onSubmit={handleSubmit}>
         <label htmlFor="name">Nombre: </label>
         <input
           type="text"
