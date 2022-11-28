@@ -14,8 +14,7 @@ function App() {
     setNewAdalaber({
       ...newAdalaber,
       [ev.target.name]: ev.target.value,
-      // probar con numero aleatorio
-      id: `${newAdalaber.name}${newAdalaber.counselor}${newAdalaber.speciality}`,
+      id: crypto.randomUUID(),
     });
   };
 
@@ -31,20 +30,34 @@ function App() {
   };
 
   const renderAdalabers = () => {
-    return adalabers.map((adalaber) => {
-      return (
-        <tr key={adalaber.id}>
-          <td>{adalaber.name}</td>
-          <td>{adalaber.counselor}</td>
-          <td>{adalaber.speciality}</td>
-        </tr>
-      );
-    });
+    return adalabers
+      .sort((a, b) => {
+        if (a.name.toLowerCase() < b.name.toLowerCase()) {
+          return -1;
+        }
+        if (a.name.toLowerCase() > b.name.toLowerCase()) {
+          return 1;
+        }
+        return 0;
+      })
+      .map((adalaber) => {
+        return (
+          <tr key={adalaber.id}>
+            <td>{adalaber.name}</td>
+            <td>{adalaber.counselor}</td>
+            <td>{adalaber.speciality}</td>
+          </tr>
+        );
+      });
   };
 
   return (
     <div>
       <h1>Adalabers</h1>
+      <form>
+        <label htmlFor="nameFilter">Nombre</label>
+        <input type="text" id="nameFilter" name="nameFilter" />
+      </form>
       <table className="table">
         <thead>
           <tr>
