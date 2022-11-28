@@ -1,17 +1,23 @@
-//import { useStrict } from 'react';
-//import '../styles/App.scss';
-import adalabers from '../data/adalabers.json';
+import { useState } from 'react';
+import adalabersData from '../data/adalabers.json';
 
 function App() {
-  // VARIABLES ESTADO
+  const [adalabers, setAdalabers] = useState(adalabersData);
 
-  // USEEFFECT ?
+  const renderAdalabers = () => {
+    return adalabers.map((adalaber) => {
+      return (
+        <div key={adalaber.id}>
+          <tr>
+            <td>{adalaber.name}</td>
+            <td>{adalaber.counselor}</td>
+            <td>{adalaber.speciality}</td>
+          </tr>
+        </div>
+      );
+    });
+  };
 
-  // FUNCIONES HANDLER
-
-  // FUNCIONES Y VARIABLES QUE AYUDEN A RENDERIZAR HTML
-
-  // HTML EN EL RETURN
   return (
     <div>
       <h1>Adalabers</h1>
@@ -23,26 +29,7 @@ function App() {
             <th>Especialidad</th>
           </tr>
         </thead>
-        <tbody>
-          {/* <!-- Primera fila --> */}
-          <tr>
-            <td>MariCarmen</td>
-            <td>Yanelis</td>
-            <td>Python</td>
-          </tr>
-          {/* <!-- Segunda fila --> */}
-          <tr>
-            <td>Amparo</td>
-            <td>Dayana</td>
-            <td>IA</td>
-          </tr>
-          {/* <!-- Tercera fila --> */}
-          <tr>
-            <td>Escandia</td>
-            <td>Iván</td>
-            <td>3D graphics</td>
-          </tr>
-        </tbody>
+        <tbody>{renderAdalabers()}</tbody>
       </table>
     </div>
   );
