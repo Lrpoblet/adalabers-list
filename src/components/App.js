@@ -10,6 +10,7 @@ function App() {
     speciality: '',
   });
   const [search, setSearch] = useState('');
+  const [searchConselor, setSearchConselor] = useState('');
 
   const handleInput = (ev) => {
     setNewAdalaber({
@@ -21,7 +22,8 @@ function App() {
 
   const handleAddClick = (ev) => {
     ev.preventDefault();
-    setAdalabers([...adalabers, newAdalaber]);
+    const adalabersClone = [...adalabers, newAdalaber];
+    setAdalabers(adalabersClone);
     setNewAdalaber({
       id: '',
       name: '',
@@ -32,6 +34,10 @@ function App() {
 
   const handleSearchName = (ev) => {
     setSearch(ev.target.value);
+  };
+
+  const handleSearchConselor = (ev) => {
+    setSearchConselor(ev.target.value);
   };
 
   const handleSubmit = (ev) => {
@@ -52,6 +58,12 @@ function App() {
       .filter((adalaber) => {
         return adalaber.name.toLowerCase().includes(search.toLowerCase());
       })
+      .filter((adalaber) => {
+        if (searchConselor === '') {
+          return true;
+        }
+        return adalaber.counselor.toLowerCase() === searchConselor;
+      })
       .map((adalaber) => {
         return (
           <tr key={adalaber.id}>
@@ -65,59 +77,81 @@ function App() {
 
   return (
     <div>
-      <h1>Adalabers</h1>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="nameFilter">Nombre</label>
-        <input
-          type="text"
-          id="nameFilter"
-          name="nameFilter"
-          value={search}
-          onChange={handleSearchName}
-        />
-      </form>
-      <table className="table">
-        <thead>
-          <tr>
-            <th>Nombre</th>
-            <th>Tutora</th>
-            <th>Especialidad</th>
-          </tr>
-        </thead>
-        <tbody>{renderAdalabers()}</tbody>
-      </table>
-      <h2>Añadir una Adalaber</h2>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="name">Nombre: </label>
-        <input
-          type="text"
-          id="name"
-          name="name"
-          value={newAdalaber.name}
-          onChange={handleInput}
-        />
-        <label htmlFor="counselor">Tutora: </label>
-        <input
-          type="text"
-          id="counselor"
-          name="counselor"
-          value={newAdalaber.counselor}
-          onChange={handleInput}
-        />
-        <label htmlFor="speciality">Especialidad: </label>
-        <input
-          type="text"
-          id="speciality"
-          name="speciality"
-          value={newAdalaber.speciality}
-          onChange={handleInput}
-        />
-        <input
-          type="button"
-          value="Añadir una nueva Adalaber"
-          onClick={handleAddClick}
-        />
-      </form>
+      <header>
+        <h1>Adalabers</h1>
+      </header>
+      <main>
+        <section>
+          <form onSubmit={handleSubmit}>
+            <select value={searchConselor} onChange={handleSearchConselor}>
+              <option value="">Todos</option>
+              <option value="dayana">Dayana</option>
+              <option value="yanelis">Yanelis</option>
+              <option value="iván">Iván</option>
+            </select>
+            <label htmlFor="nameFilter">Nombre</label>
+            <input
+              type="text"
+              id="nameFilter"
+              name="nameFilter"
+              value={search}
+              onChange={handleSearchName}
+            />
+          </form>
+        </section>
+        <section>
+          <table className="table">
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Tutora</th>
+                <th>Especialidad</th>
+              </tr>
+            </thead>
+            <tbody>{renderAdalabers()}</tbody>
+          </table>
+        </section>
+        <section>
+          <h2>Añadir una Adalaber</h2>
+          <form onSubmit={handleSubmit}>
+            <label htmlFor="name">
+              Nombre:
+              <input
+                type="text"
+                id="name"
+                name="name"
+                value={newAdalaber.name}
+                onChange={handleInput}
+              />
+            </label>
+            <label htmlFor="counselor">
+              Tutora:
+              <input
+                type="text"
+                id="counselor"
+                name="counselor"
+                value={newAdalaber.counselor}
+                onChange={handleInput}
+              />
+            </label>
+            <label htmlFor="speciality">
+              Especialidad:
+              <input
+                type="text"
+                id="speciality"
+                name="speciality"
+                value={newAdalaber.speciality}
+                onChange={handleInput}
+              />
+            </label>
+            <input
+              type="button"
+              value="Añadir una nueva Adalaber"
+              onClick={handleAddClick}
+            />
+          </form>
+        </section>
+      </main>
     </div>
   );
 }
