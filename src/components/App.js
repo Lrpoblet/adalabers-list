@@ -1,9 +1,34 @@
 import { useState } from 'react';
-import { render } from 'react-dom';
 import adalabersData from '../data/adalabers.json';
 
 function App() {
   const [adalabers, setAdalabers] = useState(adalabersData);
+  const [newAdalaber, setNewAdalaber] = useState({
+    id: '',
+    name: '',
+    counselor: '',
+    speciality: '',
+  });
+
+  const handleInput = (ev) => {
+    setNewAdalaber({
+      ...newAdalaber,
+      [ev.target.name]: ev.target.value,
+      // probar con numero aleatorio
+      id: `${newAdalaber.name}${newAdalaber.counselor}${newAdalaber.speciality}`,
+    });
+  };
+
+  const handleAddClick = (ev) => {
+    ev.preventDefault();
+    setAdalabers([...adalabers, newAdalaber]);
+    setNewAdalaber({
+      id: '',
+      name: '',
+      counselor: '',
+      speciality: '',
+    });
+  };
 
   const renderAdalabers = () => {
     return adalabers.map((adalaber) => {
@@ -33,12 +58,34 @@ function App() {
       <h2>Añadir una Adalaber</h2>
       <form>
         <label htmlFor="name">Nombre: </label>
-        <input type="text" id="name" name="name" />
+        <input
+          type="text"
+          id="name"
+          name="name"
+          value={newAdalaber.name}
+          onChange={handleInput}
+        />
         <label htmlFor="counselor">Tutora: </label>
-        <input type="text" id="counselor" name="counselor" />
+        <input
+          type="text"
+          id="counselor"
+          name="counselor"
+          value={newAdalaber.counselor}
+          onChange={handleInput}
+        />
         <label htmlFor="speciality">Especialidad: </label>
-        <input type="text" id="speciality" name="speciality" />
-        <input type="button" value="Añadir una nueva Adalaber" />
+        <input
+          type="text"
+          id="speciality"
+          name="speciality"
+          value={newAdalaber.speciality}
+          onChange={handleInput}
+        />
+        <input
+          type="button"
+          value="Añadir una nueva Adalaber"
+          onClick={handleAddClick}
+        />
       </form>
     </div>
   );
