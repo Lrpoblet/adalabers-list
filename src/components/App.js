@@ -13,23 +13,33 @@ function App() {
   const [searchConselor, setSearchConselor] = useState('');
 
   const handleInput = (ev) => {
-    setNewAdalaber({
-      ...newAdalaber,
-      [ev.target.name]: ev.target.value,
-      id: crypto.randomUUID(),
-    });
+    if (ev.target.value !== 0) {
+      setNewAdalaber({
+        ...newAdalaber,
+        [ev.target.name]: ev.target.value,
+        id: crypto.randomUUID(),
+      });
+    }
   };
 
   const handleAddClick = (ev) => {
     ev.preventDefault();
-    const adalabersClone = [...adalabers, newAdalaber];
-    setAdalabers(adalabersClone);
-    setNewAdalaber({
-      id: '',
-      name: '',
-      counselor: '',
-      speciality: '',
-    });
+    if (
+      newAdalaber.name !== '' &&
+      newAdalaber.counselor !== '' &&
+      newAdalaber.speciality !== ''
+    ) {
+      const adalabersClone = [...adalabers, newAdalaber];
+      setAdalabers(adalabersClone);
+      setNewAdalaber({
+        id: '',
+        name: '',
+        counselor: '',
+        speciality: '',
+      });
+      setSearch('');
+      searchConselor('');
+    }
   };
 
   const handleSearchName = (ev) => {
@@ -122,6 +132,7 @@ function App() {
                 name="name"
                 value={newAdalaber.name}
                 onChange={handleInput}
+                required
               />
             </label>
             <label htmlFor="counselor">
@@ -132,6 +143,7 @@ function App() {
                 name="counselor"
                 value={newAdalaber.counselor}
                 onChange={handleInput}
+                required
               />
             </label>
             <label htmlFor="speciality">
@@ -142,6 +154,7 @@ function App() {
                 name="speciality"
                 value={newAdalaber.speciality}
                 onChange={handleInput}
+                required
               />
             </label>
             <input
